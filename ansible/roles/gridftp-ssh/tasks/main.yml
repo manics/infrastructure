@@ -2,11 +2,13 @@
 # tasks file for roles/gridftp-ssh
 
 - name: system packages | setup upstream Globus repo
+  become: yes
   yum:
     name: http://toolkit.globus.org/ftppub/gt6/installers/repo/globus-toolkit-repo-latest.noarch.rpm
     state: present
 
 - name: system packages | install gridftp
+  become: yes
   yum:
     name: "{{ item }}"
     state: latest
@@ -16,6 +18,7 @@
     - openssh-clients
 
 - name:
+  become: yes
   command: globus-gridftp-server-enable-sshftp
   args:
     creates: /etc/grid-security/sshftp
