@@ -85,7 +85,10 @@ Restart Cinder:
     systemctl restart openstack-cinder-volume
 
 Configure the Glance image service to use GPFS:
-#TODO
+
+    crudini --set /etc/glance/glance-api.conf glance_store filesystem_store_datadir $OS_GPFS/images
+    chown glance:glance $OS_GPFS/images
+    systemctl restart openstack-glance-api
 
 
 ## Create external network
@@ -164,7 +167,12 @@ Create a router to connect the external and private networks:
     neutron router-interface-add router1 private_subnet
 
 
-# Testing an image
+# Testing the installation so far
+
+At this point it is advisable to check everything is working before continuing.
+
+
+## Adding an image
 
 OpenStack with KVM/qemu normally works with the qcow2 format, which is designed to support copy-on-write.
 However, if OpenStack Cinder is using the GPFS driver copy-on-write can be handled by the file system, so for best performance you should use raw images.
@@ -174,17 +182,26 @@ To download the Cirros test image (qcow2), convert it to raw, and upload it to O
 
     curl http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img > cirros-0.3.4-x86_64-disk.img
     qemu-img convert -f qcow2 -O raw cirros-0.3.4-x86_64-disk.img cirros-0.3.4-x86_64-disk.raw
-    glance image-create --name='Cirros 0.3.4' --visibility public --container-format=bare --disk-format=raw < cat cirros-0.3.4-x86_64-disk.raw
+    glance image-create --name='Cirros 0.3.4' --visibility public --container-format=bare --disk-format=raw < cirros-0.3.4-x86_64-disk.raw
+
+You can also add images using the Horizon web interface.
+
+Then follow the instructions in [idr-openstack-using.md](idr-openstack-using.md) to start and connect to the VM.
+
+
+# Adding projects/tenancies and users
+
+Initially there should be `admin` and `services` projects (also known as tenancies).
+`services` is for internal OpenStack use only.
+If you go to `Identity` in the left hand Horizon menu you can manage `Projects` and `Users`.
+Alternatively you can use the command line.
 
 
 
-#keystone tenant-create --name internal --description "internal tenant" --enabled true
-#keystone user-create --name internal --tenant internal --pass "ome" --email test@example.org --enabled true
 
-#curl http://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud-1601.qcow2 | glance image-create --name='CentOS 7 x86_64 1601' --visibility public --container-format=bare --disk-format=qcow2
-# Note for GPFS use raw images so COW works
 
-#
-
-# Adding more nodes
-# https://www.rdoproject.org/install/adding-a-compute-node/
+    #keystone tenant-create --name internal --description "internal tenant" --enabl
+    ed true
+    -#keystone user-create --name internal --tenant internal --pass "ome" --email te
+    st@example.org --enabled true
+    -
