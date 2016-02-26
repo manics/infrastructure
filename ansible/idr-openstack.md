@@ -98,7 +98,7 @@ See https://www.rdoproject.org/networking/neutron-with-existing-external-network
 The following steps must be performed as root.
 
 The external network interface must be reconfigured as an OpenSwitch bridge.
-For example, if the exiting interace is called `eno1` you can use the `network` role to add a bridge called for example `br-ex`:
+For example, if the existing interace is called `eno1` and the IP of the current node is 10.0.01/24 you can use the `network` role to add a bridge, in this example called `br-ex`:
 
     network_ifaces:
     - device: eno1
@@ -189,10 +189,34 @@ You can also add images using the Horizon web interface.
 Then follow the instructions in [idr-openstack-using.md](idr-openstack-using.md) to start and connect to the VM.
 
 
+# Adding more nodes
+
+See https://www.rdoproject.org/install/adding-a-compute-node/ for more details.
+As a normal user copy the packstack answer file created by the last run if packstack, and modify it to append the new nodes (do not remove the existing nodes).
+Add the current node to the exclusions to ensure it's configuration is not modified.
+For example, to add two new nodes, 10.0.0.2 and 10.0.0.3 without changing the current node (10.0.0.1):
+
+    cp packstack-answers-YYYYMMDD-hhmmss.txt packstack-answers-new.txt
+    PACKSTACK_ANSWERS=packstack-answers-new.txt
+    crudini --set $PACKSTACK_ANSWERS general CONFIG_COMPUTE_HOSTS 10.0.0.1,10.0.0.2,10.0.0.3
+    crudini --set $PACKSTACK_ANSWERS general CONFIG_NETWORK_HOSTS 10.0.0.1,10.0.0.2,10.0.0.3
+    crudini --set $PACKSTACK_ANSWERS general EXCLUDE_SERVERS 10.0.0.1
+
+As before you will need to setup `ssh root@new-node`.
+Once this is done run packstack again from the current node as a normal user.
+
+    packstack --answer-file $PACKSTACK_ANSWERS
+
+You will need to reconfigure the physical network interface to match that of the original node (e.g. create bridge `br-ex` using `eno1`).
+It should not be necessary to make any other changes (for example, it is not necessary to run the neutron configuration steps again since it is a virtual network).
+
+
 # Adding projects/tenancies and users
 
 Initially there should be `admin` and `services` projects (also known as tenancies).
-`services` is for internal OpenStack use only.
+- `admin`: Amongst other things this can be used for setting up shared infrastructure such as networks or images that can't be modified by other tenants
+- `services`: Internal OpenStack use only, if you touch this you will probably break something.
+
 If you go to `Identity` in the left hand Horizon menu you can manage `Projects` and `Users`.
 Alternatively you can use the command line.
 

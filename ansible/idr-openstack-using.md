@@ -59,13 +59,24 @@ Where username is the the preconfigured account on the base image, see the docum
 
 Most images should be configured with password-less `sudo`.
 
+You can also access a virtual console for each VM.
+
+    1. Open the `Instances` view
+    2. Click on the `Instance Name`
+    3. You should be taken to the `Instance Details` page, click on `Console`
+    4. You should see a virtual console, if not click on `Click here to show only console`
+
 
 # Adding more images
 
-For example, CentOS image:
+If OpenStack is using GPFS as a backing store using raw images will enable it to take advantage of GPFS copy-on-write, otherwise qcow2 is recommended.
+Use `qemu-img convert` if necessary.
+
+Either add images in Horizon, or use the command line.
+For example, to add the latest CentOS image (7.2):
 
     curl http://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud-1602.raw.tar.gz > CentOS-7-x86_64-GenericCloud-1602.raw.tar.gz
     tar -zxf CentOS-7-x86_64-GenericCloud-1602.raw.tar.gz
-    glance image-create --name='CentOS 7 1602' --visibility public --container-format=bare --disk-format=raw < CentOS-7-x86_64-GenericCloud-20160221_01.raw
+    glance image-create --name='CentOS 7.2 1602' --visibility public --container-format=bare --disk-format=raw < CentOS-7-x86_64-GenericCloud-20160221_01.raw
 
 You can download an evaluation version of Windows from https://cloudbase.it/windows-cloud-images/. Alternatively use [Cloudbase-init](https://cloudbase.it/cloudbase-init/) to create your own image from a Windows iso.
