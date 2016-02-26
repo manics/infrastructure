@@ -220,12 +220,28 @@ Initially there should be `admin` and `services` projects (also known as tenanci
 If you go to `Identity` in the left hand Horizon menu you can manage `Projects` and `Users`.
 Alternatively you can use the command line.
 
+For instance, to create a project called `omedev` with a single user `test` and password `omedev`:
+
+    source keystonerc_admin
+    keystone tenant-create --name omedev --description "OME developers" --enabled true
+    keystone user-create --name test --tenant omedev --pass "omedev" --email omedev@example.org --enabled true
 
 
+# Configuring https for Horizon and online consoles
 
+Packstack will setup Horizon to use a self-signed certificate.
+To change the certificate used for the online console log into the controller node (e.g. 10.0.0.1):
 
-    #keystone tenant-create --name internal --description "internal tenant" --enabl
-    ed true
-    -#keystone user-create --name internal --tenant internal --pass "ome" --email te
-    st@example.org --enabled true
-    -
+    crudini --set /etc/nova/nova.conf DEFAULT cert /etc/pki/tls/certs/openstack.crt
+    crudini --set /etc/nova/nova.conf DEFAULT key /etc/pki/tls/private/openstack.key
+    systemctl restart openstack-nova-novncproxy
+
+If you have a proper SSL certificate copy the certificate and key files to the server, and update the configuration.
+You may also need to update the `ServerName` to match the certificate, for example:
+
+    sed -i.bak -r \
+        -e 's|(\s*ServerName\s+).+|\1server.host.name|' \
+        -e 's|(\s*SSLCertificateFile\s+).+|\1"/etc/pki/tls/certs/openstack.crt"|' \
+        -e 's|(\s*SSLCertificateKeyFile\s+).+|\1"/etc/pki/tls/private/openstack.key"|' \
+        /etc/httpd/conf.d/15-horizon_ssl_vhost.conf
+    systemctl restart httpd
