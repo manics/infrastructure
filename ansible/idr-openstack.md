@@ -186,8 +186,26 @@ To download the Cirros test image (qcow2), convert it to raw, and upload it to O
 
 You can also add images using the Horizon web interface.
 
-Then follow the instructions in [idr-openstack-using.md](idr-openstack-using.md) to start and connect to the VM.
+Then follow the instructions in [idr-openstack-using.md](idr-openstack-using.md) to start and connect to the VM, using the username and password from the `keystonerc_admin` file.
 
+
+# Customising flavours
+
+A flavour is a preset combination of COUs, memory and ephemeral disk.
+You can add or modify the defaults in Horizon (`System > Flavors`), or on the command line.
+For instance, to replace all the default flavours:
+
+    nova flavor-delete m1.tiny
+    nova flavor-delete m1.small
+    nova flavor-delete m1.medium
+    nova flavor-delete m1.large
+    nova flavor-delete m1.xlarge
+
+    nova flavor-create m1.tiny 1 1024 5 1
+    nova flavor-create m1.small 2 2048 10 2
+    nova flavor-create m1.medium 3 4096 20 4
+    nova flavor-create m1.large 4 8192 20 8
+    nova flavor-create m1.xlarge 5 16384 20 16
 
 # Adding more nodes
 
@@ -220,11 +238,43 @@ Initially there should be `admin` and `services` projects (also known as tenanci
 If you go to `Identity` in the left hand Horizon menu you can manage `Projects` and `Users`.
 Alternatively you can use the command line.
 
-For instance, to create a project called `omedev` with a single user `test` and password `omedev`:
+For instance, to create a project called `omedev` with a single user `test` and password `abc123`:
 
     source keystonerc_admin
-    keystone tenant-create --name omedev --description "OME developers" --enabled true
-    keystone user-create --name test --tenant omedev --pass "omedev" --email omedev@example.org --enabled true
+    NEW_TENANT=omedev
+    NEW_USER=test
+    NEW_PASSWORD=abc123
+    keystone tenant-create --name $NEW_TENANT --description "Developers" --enabled true
+    keystone user-create --name $NEW_USER --tenant $NEW_TENANT --pass "$NEW_PASSWORD" --email developers@example.org --enabled true
+
+Once you have created the tenant you will need to create a network and attach it to the external network, either in Horizon or using the command line clients.
+Note that this private network can have the same CIDR as another tenant's network, since they are completely separate.
+
+Login to Horizon and create the network, subnet, router, and optionally some security groups.
+Alternatively use the command line.
+Copy and modify the `keystonerc_admin` file, or login to Horizon as a user of the new tenancy and download an environment settings file (`Project > Compute > Access and Security > API Access > Download OpenStack RC File`):
+
+    source keystonerc_$NEW_TENANT
+    neutron net-create ${NEW_TENANT}_network
+    neutron subnet-create --name private_subnet ${NEW_TENANT}_network 192.168.1.0/24 --dns-nameserver 8.8.4.4 --dns-nameserver 8.8.8.8
+
+Create a router to connect the external and private networks:
+
+    neutron router-create ${NEW_TENANT}_router
+    neutron router-gateway-set ${NEW_TENANT}_router external_network
+    neutron router-interface-add ${NEW_TENANT}_router ${NEW_TENANT}_subnet
+
+Create some security groups:
+
+    nova secgroup-create ssh "SSH from anywhere"
+    nova secgroup-add-rule ssh tcp 22 22 0.0.0.0/0
+
+    nova secgroup-create all "TCP/UDP/ICMP from anywhere"
+    nova secgroup-add-rule all tcp 1 65535 0.0.0.0/0
+    nova secgroup-add-rule all udp 1 65535 0.0.0.0/0
+    nova secgroup-add-rule all icmp -1 -1 0.0.0.0/0
+
+If you want to set quotas for a tenant/project login to Horizon as an admin and go to `Identity > Projects`, in the dropdown to the right of the project click `Modify Quotas`.
 
 
 # Configuring https for Horizon and online consoles
