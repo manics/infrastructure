@@ -280,18 +280,44 @@ If you want to set quotas for a tenant/project login to Horizon as an admin and 
 # Configuring https for Horizon and online consoles
 
 Packstack will setup Horizon to use a self-signed certificate.
-To change the certificate used for the online console log into the controller node (e.g. 10.0.0.1):
-
-    crudini --set /etc/nova/nova.conf DEFAULT cert /etc/pki/tls/certs/openstack.crt
-    crudini --set /etc/nova/nova.conf DEFAULT key /etc/pki/tls/private/openstack.key
-    systemctl restart openstack-nova-novncproxy
-
-If you have a proper SSL certificate copy the certificate and key files to the server, and update the configuration.
+If you have a proper SSL certificate copy the certificate and key files to the controller node (e.g. 10.0.01), and update the configuration.
 You may also need to update the `ServerName` to match the certificate, for example:
 
+    SERVER_NAME=cloud.example.org
+    SSL_CERTIFICATE=openstack.crt
+    SSL_KEY=openstack.key
     sed -i.bak -r \
-        -e 's|(\s*ServerName\s+).+|\1server.host.name|' \
-        -e 's|(\s*SSLCertificateFile\s+).+|\1"/etc/pki/tls/certs/openstack.crt"|' \
-        -e 's|(\s*SSLCertificateKeyFile\s+).+|\1"/etc/pki/tls/private/openstack.key"|' \
+        -e "s|(\s*ServerName\s+).+|\1$SERVER_NAME|" \
+        -e "s|(\s*SSLCertificateFile\s+).+|\1\"/etc/pki/tls/certs/$SSL_CERTIFICATE\"|" \
+        -e "s|(\s*SSLCertificateKeyFile\s+).+|\1\"/etc/pki/tls/private/$SSL_KEY\"|" \
         /etc/httpd/conf.d/15-horizon_ssl_vhost.conf
     systemctl restart httpd
+
+If you require intermediate certificates to be bunbled you should be able to append them to the main certificate.
+
+To change the certificate used for the remote web console:
+
+    NOVA_CONF=/etc/nova/nova.conf
+    crudini --set $NOVA_CONF DEFAULT cert /etc/pki/tls/certs/$SSL_CERTIFICATE
+    crudini --set $NOVA_CONF DEFAULT key /etc/pki/tls/private/$SSL_KEY
+    crudini --set $NOVA_CONF DEFAULT novncproxy_base_url https://$SERVER_NAME:6080/vnc_auto.html
+    systemctl restart openstack-nova-novncproxy
+
+The OpenStack remote console process requires read access to the certificate key file, so the configuration of making it owned and readable by `root` only (`chmod 600`) will not work.
+Instead of making it world readable change the group to `nova` and make it group readable:
+
+    chgrp nova /etc/pki/tls/private/$SSL_KEY
+    chmod 640 /etc/pki/tls/private/$SSL_KEY
+
+
+# Rebooting
+
+The systems participating in the cloud may take significantly longer than normal to shutdown.
+
+On startup if you are using GPFS it may take a minute or more for the GPFS filesystems to mount.
+OpenStack cinder and glance may startup too quick and mark the volume as inaccessible.
+If this happens you will have to restart the services, for example:
+
+    systemctl restart cinder-api
+    systemctl restart cinder-volume
+    systemctl restart glance-api
