@@ -8,6 +8,8 @@ Before doing any administrative work on a GPFS system you should consult the off
 Some commands can be run as root from any node in the GPFS cluster including clients.
 Depending on how the cluster is configured some commands can only be run from a limited number of administrative nodes.
 
+Note: be careful about copying commands from the IBM documentation, as some characters may have been replaced by other unicode characters (such as dashes `-`).
+
 
 GPFS Filesets
 -------------
@@ -20,7 +22,7 @@ A larger number of inodes requires more metadata space, so it should not be too 
 
 For example, if you have a GPFS filesystem called `gpfs-1` mounted on `/data` and you want to create a new fileset called `downloads` with an initial maximum of 100k inodes:
 
-    mmcrfileset gpfs-1 downloads --inode-space new ‐‐inode‐limit 100k
+    mmcrfileset gpfs-1 downloads --inode-space new --inode-limit 100k
     mmlinkfileset gpfs-1 downloads -J /data/downloads
 
 You can increase the maximum number of inodes after creating the fileset:
