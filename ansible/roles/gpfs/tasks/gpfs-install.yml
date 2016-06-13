@@ -64,7 +64,7 @@
   patch:
     dest: "{{ item.dest }}"
     src: "{{ item.src }}"
-  with_items: gpfs_local_patches | default([])
+  with_items: "{{ gpfs_local_patches | default([]) }}"
   when: gpfs_local_patches
 
 # Systemd-219 workaround (see readme)
