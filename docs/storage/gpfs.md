@@ -65,3 +65,33 @@ To list all snapshots:
 To delete a snapshot:
 
     mmdelsnapshot gpfs-1 downloads-0.1 -j downloads
+
+
+Setting up cluster export services (CES) such as NFS
+----------------------------------------------------
+
+Cluster export services (CES) uses a virtual IP address to provide automatic failover between multiple file servers (NFS, Samba, etc) in a GPFS cluster.
+This virtual IP should be dedicated to the use of CES, must be distinct from existing IP addresses, and must also have a reverse DNS record.
+
+See http://www.ibm.com/support/knowledgecenter/STXKQY_4.1.1/com.ibm.spectrum.scale.v4r11.adv.doc/bl1adv_ces.htm.
+In particular
+- [CES cluster setup](http://www.ibm.com/support/knowledgecenter/STXKQY_4.1.1/com.ibm.spectrum.scale.v4r11.adv.doc/bl1adv_cesclustersetup.htm)
+- [CES network configuration](http://www.ibm.com/support/knowledgecenter/STXKQY_4.1.1/com.ibm.spectrum.scale.v4r11.adv.doc/bl1adv_cesnetworkconfig.htm)
+
+See also `man mmces`.
+
+Some of these commands must be run from an admin node, so it's best to run all these commands from an admin node.
+To setup a CES cluster:
+
+1. Create a shared GPFS directory for CES data, optionally in a new filesystem or fileset `mkdir /data/ces-data`
+2. Configure this directory `mmchconfig cesSharedRoot=/data/ces-data`
+3. Enable CES on one or more nodes `mmchnode --ces-enable -N gpfs-node1,...`
+4. Place all CES nodes into a new class (e.g. called `protocol` for convenience `mmcrnodeclass protocol -N gpfs-node1,...`
+5. Add the CES IPs to the CES address pool `mmces address add --ces-ip A.B.C.D` (if you get an error `Incorrect value for --ces-ip option` check that there is a corresponding reverse DNS record)
+6. Start the service `mmces service start NFS -a` (other protocols are available including `SMB` and `OBJ`)
+7. Check services are started `mmces service list -a`
+
+Once the CES cluster is created you can create some shares.
+Note that NFS shares must be configured using GPFS commands such as `mmnfs`, and not the standard Linux NFS commands.
+
+Note if you are modifying an existing CES configuration you may need to shutdown GPFS on the CES nodes `mmshutdown -N protocol`
