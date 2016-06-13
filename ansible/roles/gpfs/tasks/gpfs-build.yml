@@ -132,3 +132,12 @@
     fail_on_missing: yes
     flat: yes
     src: /root/rpmbuild/RPMS/x86_64/{{ gpfs_kernel_rpm_name }}
+
+- name: gpfs | fetch nfs rpms
+  become: yes
+  fetch:
+    dest: "{{ gpfs_local_rpm_dir }}/4/"
+    fail_on_missing: yes
+    flat: yes
+    src: "{{ gpfs_installer_extracted_nfs_rpms_dir }}/{{ item }}"
+  with_items: "{{ gpfs_installer_nfs_rpms }}"

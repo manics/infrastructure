@@ -7,6 +7,8 @@ gpfs_build: False
 gpfs_install: True
 # If true configure system for GPFS
 gpfs_configure: gpfs_install
+# If true install GPFS Ganesha NFS RPMs
+gpfs_nfs_install: False
 
 # Build/Install a GPFS module for this kernel version
 gpfs_kernel_version: 3.10.0-327.10.1.el7.x86_64
@@ -42,6 +44,7 @@ gpfs_installer_version: "4.1.1.0"
 gpfs_installer_rpm_version: "4.1.1-0"
 gpfs_patch_version: "4.1.1.4"
 gpfs_patch_rpm_version: "4.1.1-4"
+gpfs_installer_nfs_rpm_version: "2.2.0-0.2ibm1.el7"
 
 # A list local fixes to deal with GPFS bugs in the form
 # `- { src: file.patch, dest: /path/to/be/patched}`
@@ -58,6 +61,7 @@ gpfs_patch_package_sha1: 805356e8a5575250f021e1f2b2ec036c01ba3b65
 
 # Expected path to the directory containing the extracted RPMs
 gpfs_installer_extracted_rpms_dir: /usr/lpp/mmfs/{{ gpfs_version }}/gpfs_rpms
+gpfs_installer_extracted_nfs_rpms_dir: /usr/lpp/mmfs/{{ gpfs_version }}/ganesha_rpms
 gpfs_patch_extracted_rpms_dir: /usr/lpp/mmfs/{{ gpfs_patch_version }}
 
 # The list of GPFS RPMs to be installed from the installer package
@@ -69,6 +73,12 @@ gpfs_installer_rpms:
 - gpfs.gskit-8.0.50-40.x86_64.rpm
 #- gpfs.hadoop-2-connector-{{ gpfs_installer_rpm_version }}.x86_64.rpm
 - gpfs.msg.en_US-{{ gpfs_installer_rpm_version }}.noarch.rpm
+
+# The list of GPFS NFS RPMs to be installed from the installer package
+gpfs_installer_nfs_rpms:
+- nfs-ganesha-{{ gpfs_installer_nfs_rpm_version }}.x86_64.rpm
+- nfs-ganesha-gpfs-{{ gpfs_installer_nfs_rpm_version }}.x86_64.rpm
+- nfs-ganesha-utils-{{ gpfs_installer_nfs_rpm_version }}.x86_64.rpm
 
 # List of RPMs to uninstall (because the patch RPM has a different name from the installer RPM)
 gpfs_remove_rpms:
