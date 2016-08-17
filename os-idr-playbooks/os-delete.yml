@@ -1,0 +1,49 @@
+---
+# Delete VMs and security groups created by os-create.yml
+
+- hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+
+    - fail:
+        msg: "vm_prefix is required"
+      when: vm_prefix is undefined or not vm_prefix
+
+    - name: Remove instances
+      os_server:
+        name: "{{ vm_prefix }}-{{ item }}"
+        state: absent
+      with_items:
+        - database
+        - gateway
+        - omero
+
+    - name: Remove instances
+      os_server:
+        name: "{{ vm_prefix }}-{{ item }}"
+        state: absent
+      with_items:
+        - database
+        - gateway
+        - omero
+
+    # We've deleted the instances, so no need to dettach them
+    - name: Remove volume
+      os_volume:
+        display_name: "{{ item }}"
+        state: absent
+      with_items:
+        - "{{ vm_prefix }}-omero-data"
+        - "{{ vm_prefix }}-database-db"
+        - "{{ vm_prefix }}-gateway-nginxcache"
+
+    # Can't remove security group unless nothing is using it
+    - name: Remove OMERO external access security group
+      os_security_group:
+        name: "{{ item }}"
+        state: absent
+      with_items:
+        - omero-external
+        - gateway-external
