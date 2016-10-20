@@ -1,0 +1,6 @@
+[submodule "ansible/vendor/munin-node"]
+	path = ansible/vendor/munin-node
+	url = https://github.com/manics/ansible-role-munin-node.git
+[submodule "ansible/vendor/munin"]
+	path = ansible/vendor/munin
+	url = https://github.com/manics/ansible-role-munin.git
