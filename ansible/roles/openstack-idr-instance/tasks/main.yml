@@ -7,8 +7,12 @@
 # to work as expected since the hostvar is persistent across tasks.
 # See defaults/main.yml for most of the logic.
 
+# TODO: This uses a bundled version of `os_server`
+# https://github.com/ansible/ansible-modules-core/pull/5503
+# This should be reverted when that PR is released
 - name: idr vm | create VM
-  os_server:
+  #os_server:
+  os_server_ansible23:
     # Only add `-N` suffix for item>1
     name: "{{ idr_vm_name }}{{ (item | int > 1) | ternary('-' + item, '') }}"
     state: present
