@@ -61,7 +61,7 @@ Vagrant.configure(2) do |config|
     "haproxy",
     "nginx",
     "nginx-mainline",
-    "omero-server",
+    "omero-server-ice35",
     "omero-server-ice36",
   ].each do |server|
     config.vm.define "#{server}" do |node|
