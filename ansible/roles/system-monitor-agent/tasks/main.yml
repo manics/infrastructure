@@ -14,6 +14,7 @@
     state: present
   with_items:
     - check-mk-agent
+    - net-snmp
     - xinetd
 
 - name: xinetd | start and enable
@@ -21,4 +22,11 @@
   service:
     enabled: yes
     name: xinetd.service
+    state: started
+
+- name: snmpd | start and enable
+  become: yes
+  service:
+    enabled: yes
+    name: snmpd.service
     state: started
