@@ -10,7 +10,10 @@
   vars:
     - idr_environment: idr
     - idr_keypair_keys: []
-    - vm_image: CentOS 7
+    # idr_keypair_file can also be set to override the list of keys
+    - net_internal: "{{ idr_environment }}"
+    - net_external: "external_network"
+    - vm_image: "CentOS 7"
     - vm_flavour: m1.large
 
 
@@ -27,6 +30,16 @@
 
     - role: openstack-idr-security-groups
 
+    ############################################################
+    # Instances
+
+    - role: openstack-idr-network
+      idr_network_name: "{{ net_internal }}"
+      idr_network_external_name: "{{ net_external }}"
+      idr_network_subnet: 10.20.30.40/24
+      idr_network_dns:
+      - 8.8.8.8
+      - 8.8.4.4
 
     ############################################################
     # Instances

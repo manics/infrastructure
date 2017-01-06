@@ -18,4 +18,5 @@ ice_pip_dependencies:
   - python-pip
 ice_pip_packages:
   # We want the highest minor release
-  - "zeroc-ice>=3.6,<3.7"
+  - "pip==8.1.2"
+  - "zeroc-ice==3.6.3"
