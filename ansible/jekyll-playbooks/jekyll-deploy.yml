@@ -14,14 +14,14 @@
     github_branch: ome-redesign-master
 
   roles:
-    - role: jekyll-build
+    - role: openmicroscopy.jekyll-build
       jekyll_build_owner: "{{ site_owner }}"
       jekyll_build_group: "{{ site_group }}"
       jekyll_build_name: "{{ site_name }}"
       jekyll_build_git_repo: https://github.com/{{ github_user }}/{{ github_repo }}
       jekyll_build_git_branch: "{{ github_branch }}"
       jekyll_build_force_rebuild: True
-    - role: nginx
+    - role: openmicroscopy.nginx
 
   tasks:
 

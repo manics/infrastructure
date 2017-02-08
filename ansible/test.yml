@@ -8,16 +8,16 @@
 
 - hosts: docker
   roles:
-  - role: docker
-  - role: docker-tools
+  - role: openmicroscopy.docker
+  - role: openmicroscopy.docker-tools
 
 - hosts: redis
   roles:
-  - role: redis
+  - role: openmicroscopy.redis
 
 - hosts: samba
   roles:
-  - role: active-directory-samba-share
+  - role: openmicroscopy.active-directory-samba-share
     active_directory_realm: AD.EXAMPLE.ORG
     active_directory_workgroup: workgroup
     active_directory_shares:
@@ -34,7 +34,7 @@
 
 - hosts: cliutils
   roles:
-  - role: cli-utils
+  - role: openmicroscopy.cli-utils
     # Should automatically bring in basedeps
 
 - hosts: postgres
@@ -85,7 +85,7 @@
 
 - hosts: docs
   roles:
-  - role: sphinx-build
+  - role: openmicroscopy.sphinx-build
 
   tasks:
   - command: sphinx-build --version
@@ -97,7 +97,7 @@
 
 - hosts: jekyll
   roles:
-  - role: jekyll-build
+  - role: openmicroscopy.jekyll-build
     jekyll_build_name: test
     # TODO: Use the official repo once the site is ready to deploy
     jekyll_build_git_repo: https://github.com/lunson/www.openmicroscopy.org
@@ -113,9 +113,9 @@
 
 - hosts: jupyter
   roles:
-  - role: docker
-  - role: docker-tools
-  - role: idr-jupyter
+  - role: openmicroscopy.docker
+  - role: openmicroscopy.docker-tools
+  - role: openmicroscopy.idr-jupyter
     idr_jupyter_ip: "{{ ansible_eth0.ipv4.address }}"
     # `user` must exist in the jupyterhub Docker container
     idr_jupyter_users: [user]
@@ -133,7 +133,7 @@
 
 - hosts: omeroscriptsdependencies-debian
   roles:
-  - role: omero-scripts-dependencies
+  - role: openmicroscopy.omero-scripts-dependencies
 
   tasks:
   - stat: 
@@ -148,7 +148,7 @@
 
 - hosts: omerowebappsbuilddependencies
   roles:
-  - role: omero-web-apps-build-dependencies
+  - role: openmicroscopy.omero-web-apps-build-dependencies
 
   tasks:
   - command: node --version

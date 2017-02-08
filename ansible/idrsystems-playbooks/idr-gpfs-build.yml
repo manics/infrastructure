@@ -3,7 +3,7 @@
 
 - hosts: idr-gpfs-build
   roles:
-  - role: gpfs
+  - role: openmicroscopy.gpfs
   vars:
   - gpfs_build: True
   - gpfs_install: False

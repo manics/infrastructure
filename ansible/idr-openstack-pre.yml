@@ -5,16 +5,16 @@
 - hosts: idr-openstack
 
   roles:
-  - role: upgrade-distpackages
-  - role: server-swap
-  - role: network
-  - role: lvm-partition
+  - role: openmicroscopy.upgrade-distpackages
+  - role: openmicroscopy.server-swap
+  - role: openmicroscopy.network
+  - role: openmicroscopy.lvm-partition
     lvm_lvname: var_lib
     lvm_lvmount: /var/lib
     lvm_lvsize: 200G
     lvm_vgname: VGopenstack
     lvm_lvfilesystem: ext4
-  - role: openstack-prepare
+  - role: openmicroscopy.openstack-prepare
 
   vars:
     network_ifaces: "{{ pre_network_ifaces }}"

@@ -29,7 +29,7 @@ Example Playbook
 
     - hosts: gpfs-client-nodes
       roles:
-      - role: gpfs
+      - role: openmicroscopy.gpfs
         gpfs_repo_url_base: http://example.org/pub/gpfs/x86_64/4.2.0/base
         gpfs_repo_url_updates: http://example.org/pub/gpfs/x86_64/4.2.0/updates
 

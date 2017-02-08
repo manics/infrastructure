@@ -18,7 +18,7 @@
   connection: local
   gather_facts: false
   roles:
-  - role: openstack-volume-storage
+  - role: openmicroscopy.openstack-volume-storage
     openstack_volume_size: 100
     openstack_volume_vmname: "{{ vm_name }}"
     openstack_volume_name: opthudson

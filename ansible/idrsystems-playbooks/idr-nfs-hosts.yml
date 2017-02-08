@@ -3,4 +3,4 @@
 
 - hosts: idr-nfs-hosts
   roles:
-  - role: nfs-ganesha-share
+  - role: openmicroscopy.nfs-ganesha-share

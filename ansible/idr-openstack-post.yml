@@ -6,8 +6,8 @@
 - hosts: idr-openstack
 
   roles:
-  - role: network
-  - role: logrotate
+  - role: openmicroscopy.network
+  - role: openmicroscopy.logrotate
 
   vars:
     network_ifaces: "{{ post_network_ifaces }}"

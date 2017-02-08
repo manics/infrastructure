@@ -2,8 +2,8 @@
 
   roles:
 
-  - role: selinux-utils
-  - role: haproxy
+  - role: openmicroscopy.selinux-utils
+  - role: openmicroscopy.haproxy
     haproxy_frontends:
     - name: frontend-web
       address: '*:80'

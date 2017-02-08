@@ -20,7 +20,7 @@ Example Playbook
     # Simple network
     - hosts: localhost
       roles:
-      - role: network
+      - role: openmicroscopy.network
         network_ifaces:
         - device: eth0
           ip: 192.168.1.1
@@ -33,7 +33,7 @@ Example Playbook
     # Bonded network combining eth0 and eth1
     - hosts: localhost
       roles:
-      - role: network
+      - role: openmicroscopy.network
         network_ifaces:
         - device: bond0
           ip: 192.168.1.1

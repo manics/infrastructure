@@ -20,7 +20,7 @@ Example Playbook
 
     - hosts: localhost
       roles:
-      - role: active-directory-samba-share
+      - role: openmicroscopy.active-directory-samba-share
         active_directory_realm: AD.EXAMPLE.ORG
         active_directory_workgroup: workgroup
         active_directory_shares:

@@ -19,27 +19,27 @@
     ############################################################
     # Keypairs
 
-    - role: openstack-idr-keypairs
+    - role: openmicroscopy.openstack-idr-keypairs
 
 
     ############################################################
     # Security groups
 
-    - role: openstack-idr-security-groups
+    - role: openmicroscopy.openstack-idr-security-groups
 
 
     ############################################################
     # Instances
 
     # Dedicated database server
-    - role: openstack-idr-instance
+    - role: openmicroscopy.openstack-idr-instance
       idr_vm_name: "{{ idr_environment }}-database"
       idr_vm_image: "{{ vm_image }}"
       idr_vm_flavour: "{{ vm_flavour }}"
       idr_vm_database: True
 
     # OMERO server
-    - role: openstack-idr-instance
+    - role: openmicroscopy.openstack-idr-instance
       idr_vm_name: "{{ idr_environment }}-omero"
       idr_vm_image: "{{ vm_image }}"
       idr_vm_flavour: "{{ vm_flavour }}"
@@ -49,7 +49,7 @@
 
     # Proxy server
     # Doubles up as a bastion server
-    - role: openstack-idr-instance
+    - role: openmicroscopy.openstack-idr-instance
       idr_vm_name: "{{ idr_environment }}-proxy"
       idr_vm_image: "{{ vm_image }}"
       idr_vm_flavour: "{{ vm_flavour }}"
@@ -58,14 +58,14 @@
       idr_vm_assign_floating_ip: True
 
     # Docker-manager server
-    - role: openstack-idr-instance
+    - role: openmicroscopy.openstack-idr-instance
       idr_vm_name: "{{ idr_environment }}-dockermanager"
       idr_vm_image: "{{ vm_image }}"
       idr_vm_flavour: "{{ vm_flavour }}"
       idr_vm_dockermanager: True
 
     # Docker-worker server
-    - role: openstack-idr-instance
+    - role: openmicroscopy.openstack-idr-instance
       idr_vm_name: "{{ idr_environment }}-dockerworker"
       idr_vm_image: "{{ vm_image }}"
       idr_vm_flavour: "{{ vm_flavour }}"
@@ -76,25 +76,25 @@
     ############################################################
     # Volumes
 
-    - role: openstack-volume-storage
+    - role: openmicroscopy.openstack-volume-storage
       openstack_volume_size: 100
       openstack_volume_vmname: "{{ idr_environment }}-database"
       openstack_volume_name: db
       openstack_volume_device: /dev/vdb
 
-    - role: openstack-volume-storage
+    - role: openmicroscopy.openstack-volume-storage
       openstack_volume_size: 500
       openstack_volume_vmname: "{{ idr_environment }}-omero"
       openstack_volume_name: data
       openstack_volume_device: /dev/vdb
 
-    - role: openstack-volume-storage
+    - role: openmicroscopy.openstack-volume-storage
       openstack_volume_size: 20
       openstack_volume_vmname: "{{ idr_environment }}-proxy"
       openstack_volume_name: nginxcache
       openstack_volume_device: /dev/vdb
 
-    - role: openstack-volume-storage
+    - role: openmicroscopy.openstack-volume-storage
       openstack_volume_size: 10
       openstack_volume_vmname: "{{ idr_environment }}-dockermanager"
       openstack_volume_name: jupyter

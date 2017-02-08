@@ -7,7 +7,7 @@
   vars:
     ansible_user: centos
   roles:
-  - role: storage-volume-initialise
+  - role: openmicroscopy.storage-volume-initialise
     storage_volume_initialise_device: /dev/vdc
     storage_volume_initialise_mount: /opt/hudson
 

@@ -1,6 +1,6 @@
 - hosts: nginx-mainline
   roles:
-  - role: nginx
+  - role: openmicroscopy.nginx
     nginx_stable_repo: no
 
   tasks:

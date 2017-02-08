@@ -3,8 +3,8 @@
 
 - hosts: qa-web-linux
   roles:
-    - role: postgresql
-    - role: nginx
-    - role: python-devel
-    - role: openldap-devel
-    - role: redis
+    - role: openmicroscopy.postgresql
+    - role: openmicroscopy.nginx
+    - role: openmicroscopy.python-devel
+    - role: openmicroscopy.openldap-devel
+    - role: openmicroscopy.redis

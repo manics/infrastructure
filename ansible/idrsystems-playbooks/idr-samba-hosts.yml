@@ -3,4 +3,4 @@
 
 - hosts: idr-samba-hosts
   roles:
-  - role: active-directory-samba-share
+  - role: openmicroscopy.active-directory-samba-share
