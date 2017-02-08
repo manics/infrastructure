@@ -1,6 +1,6 @@
 - hosts: nginx
   roles:
-  - role: nginx
+  - role: openmicroscopy.nginx
 
   tasks:
   - command: /usr/sbin/nginx -v

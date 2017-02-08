@@ -2,7 +2,7 @@
 
   roles:
 
-  - role: omero-server
+  - role: openmicroscopy.omero-server
     ice_version: "3.6"
     postgresql_users_databases:
     - user: omero
@@ -14,7 +14,7 @@
     # build of OMERO.server but this has different web requirements
     omero_web_install: False
 
-  - role: omero-user
+  - role: openmicroscopy.omero-user
     omero_user_admin_pass: "non default password"
     omero_user_reset_root_password: "{{ omero_user_admin_pass }}"
     omero_group_create:

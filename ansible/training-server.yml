@@ -7,7 +7,7 @@
 
 - hosts: training-server
   roles:
-  - role: omero-server
+  - role: openmicroscopy.omero-server
     # Taking this from the openstack playbook os-omero.yml, to install the systemd config.
     omero_systemd_setup: True
 

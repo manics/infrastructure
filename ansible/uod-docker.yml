@@ -6,13 +6,13 @@
   vars:
     ansible_user: centos
   roles:
-  - role: storage-volume-initialise
+  - role: openmicroscopy.storage-volume-initialise
     storage_volume_initialise_device: /dev/vdb
     storage_volume_initialise_mount: /var/lib/docker
-  - role: basedeps
-  - role: system-monitor-agent
-  - role: versioncontrol-utils
-  - role: docker
+  - role: openmicroscopy.basedeps
+  - role: openmicroscopy.system-monitor-agent
+  - role: openmicroscopy.versioncontrol-utils
+  - role: openmicroscopy.docker
     docker_groupmembers: [centos]
-  - role: sudoers
-  - role: local-accounts
+  - role: openmicroscopy.sudoers
+  - role: openmicroscopy.local-accounts

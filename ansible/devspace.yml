@@ -14,8 +14,8 @@
       when: devspace_jenkins_nginx_username|length>0
 
   roles:
-    - role: upgrade-distpackages
-    - role: docker
+    - role: openmicroscopy.upgrade-distpackages
+    - role: openmicroscopy.docker
       docker_groupmembers: [centos]
-    - role: versioncontrol-utils
-    - role: devspace
+    - role: openmicroscopy.versioncontrol-utils
+    - role: openmicroscopy.devspace

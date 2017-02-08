@@ -49,9 +49,9 @@ Example Playbook
     # Update the iDRAC and BIOS, the BIOS update requires a reboot so put it last
     - hosts: dell-servers
       roles:
-      - role: dell-update
+      - role: openmicroscopy.dell-update
         dell_update_filename: iDRAC-with-Lifecycle-Controller_Firmware_5GCHC_LN_2.30.30.30_A00.BIN
-      - role: dell-update
+      - role: openmicroscopy.dell-update
         dell_update_filename: BIOS_DC9XJ_LN_2.1.7.BIN
 
 

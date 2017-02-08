@@ -1,7 +1,7 @@
 # JRE only
 - hosts: java
   roles:
-  - role: java
+  - role: openmicroscopy.java
 
   tasks:
   - stat:
@@ -23,7 +23,7 @@
 # JRE and JDK
 - hosts: java
   roles:
-  - role: java
+  - role: openmicroscopy.java
     java_jdk_install: True
 
   tasks:

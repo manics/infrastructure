@@ -19,7 +19,7 @@ Example Playbook
 
     - hosts: localhost
       roles:
-      - role: debug-dumpallvars
+      - role: openmicroscopy.debug-dumpallvars
         debug_dumpallvars_file: /tmp/ansible-dumpvars.txt
 
 

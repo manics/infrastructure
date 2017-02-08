@@ -3,6 +3,6 @@
 
 - hosts: idr-analysis
   roles:
-  - role: analysis-tools
-  - role: samba-client
-  - role: sudoers
+  - role: openmicroscopy.analysis-tools
+  - role: openmicroscopy.samba-client
+  - role: openmicroscopy.sudoers

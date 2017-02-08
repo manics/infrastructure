@@ -33,7 +33,7 @@ Example Playbook
 
     - hosts: localhost
       roles:
-      - role: nfs-ganesha-share
+      - role: openmicroscopy.nfs-ganesha-share
         nfs_ganesha_shares:
         - path: /srv/share1
           pseudopath: /share1

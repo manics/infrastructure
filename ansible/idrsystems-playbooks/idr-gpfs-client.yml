@@ -3,5 +3,5 @@
 
 - hosts: idr-gpfs-client
   roles:
-  - role: yum-excludes
-  - role: gpfs
+  - role: openmicroscopy.yum-excludes
+  - role: openmicroscopy.gpfs

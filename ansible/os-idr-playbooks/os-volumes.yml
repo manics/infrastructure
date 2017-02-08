@@ -13,19 +13,19 @@
 
   roles:
 
-  - role: openstack-volume-storage
+  - role: openmicroscopy.openstack-volume-storage
     openstack_volume_size: 100
     openstack_volume_vmname: "{{ database_vm_name }}"
     openstack_volume_name: db
     openstack_volume_device: /dev/vdb
 
-  - role: openstack-volume-storage
+  - role: openmicroscopy.openstack-volume-storage
     openstack_volume_size: 100
     openstack_volume_vmname: "{{ omero_vm_name }}"
     openstack_volume_name: data
     openstack_volume_device: /dev/vdb
 
-  - role: openstack-volume-storage
+  - role: openmicroscopy.openstack-volume-storage
     openstack_volume_size: 20
     openstack_volume_vmname: "{{ gateway_vm_name }}"
     openstack_volume_name: nginxcache

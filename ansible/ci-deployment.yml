@@ -3,18 +3,18 @@
 
 - hosts: ci-jenkins-linux
   roles:
-    - role: jenkinsslave
-    - role: sudoers
-    - role: versioncontrol-utils
-    - role: system-monitor-agent
+    - role: openmicroscopy.jenkinsslave
+    - role: openmicroscopy.sudoers
+    - role: openmicroscopy.versioncontrol-utils
+    - role: openmicroscopy.system-monitor-agent
 
 # Deploy OMERO build and runtime prerequisites
 - hosts: ci-omero
   roles:
-    - role: omero-build
-    - role: omero-runtime
-#    - role: omero-build-cpp
-    - role: postgresql
+    - role: openmicroscopy.omero-build
+    - role: openmicroscopy.omero-runtime
+#    - role: openmicroscopy.omero-build-cpp
+    - role: openmicroscopy.postgresql
       postgresql_server_listen: "'*'"
       postgresql_server_auth:
       - database: all
@@ -29,18 +29,18 @@
 # Deploy prerequisites to build web apps
 - hosts: ci-omero-web-apps-build
   roles:
-    - role: omero-web-apps-build-dependencies
+    - role: openmicroscopy.omero-web-apps-build-dependencies
 
 # Deploy OMERO build and runtime prerequisites
 - hosts: ci-omero-web
   roles:
-    - role: omero-runtime
-    - role: omero-web-runtime
-    - role: nginx
+    - role: openmicroscopy.omero-runtime
+    - role: openmicroscopy.omero-web-runtime
+    - role: openmicroscopy.nginx
 
 
 # Deploy Documentation prerequisites
 - hosts: ci-docs
   roles:
-    - role: sphinx-build
-    - role: ansible
+    - role: openmicroscopy.sphinx-build
+    - role: openmicroscopy.ansible

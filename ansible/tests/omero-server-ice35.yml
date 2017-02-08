@@ -2,7 +2,7 @@
 
   roles:
 
-  - role: omero-server
+  - role: openmicroscopy.omero-server
     postgresql_users_databases:
     - user: omero
       password: omero

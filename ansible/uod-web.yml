@@ -5,8 +5,8 @@
     ansible_user: centos
 
   roles:
-    - role: versioncontrol-utils
-    - role: jenkinsslave
+    - role: openmicroscopy.versioncontrol-utils
+    - role: openmicroscopy.jenkinsslave
 
 - include: jekyll-playbooks/jekyll-deploy.yml
   tags: jekyll-deploy

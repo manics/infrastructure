@@ -3,19 +3,19 @@
 
 - hosts: ci-docker-dev-hosts
   roles:
-  - role: lvm-partition
+  - role: openmicroscopy.lvm-partition
     lvm_lvname: root
     lvm_lvmount: /
     lvm_lvsize: "{{ rootsize }}"
     lvm_lvfilesystem: "{{ root_filesystem }}"
-  - role: lvm-partition
+  - role: openmicroscopy.lvm-partition
     lvm_lvname: scratch
     lvm_lvmount: /scratch
     lvm_lvsize: "{{ scratch_size }}"
     lvm_lvfilesystem: "{{ scratch_filesystem }}"
-  - role: basedeps
-#  - role: system-monitor-agent
-#  - role: versioncontrol-utils
-  - role: docker
-  - role: docker-dns-server
-  - role: docker-dns-client
+  - role: openmicroscopy.basedeps
+#  - role: openmicroscopy.system-monitor-agent
+#  - role: openmicroscopy.versioncontrol-utils
+  - role: openmicroscopy.docker
+  - role: openmicroscopy.docker-dns-server
+  - role: openmicroscopy.docker-dns-client
