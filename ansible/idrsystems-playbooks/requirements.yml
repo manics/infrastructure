@@ -60,3 +60,9 @@
 
 - src: openmicroscopy.versioncontrol-utils
   version: 1.0.0
+
+- name: openmicroscopy.prometheus-node
+  src: https://github.com/manics/ansible-role-prometheus-node
+
+- name: openmicroscopy.cadvisor
+  src: https://github.com/manics/ansible-role-cadvisor

@@ -34,3 +34,7 @@
   - role: openmicroscopy.versioncontrol-utils
 
   - role: openmicroscopy.celery-docker
+
+  # Monitoring
+  - role: openmicroscopy.prometheus-node
+  - role: openmicroscopy.cadvisor
