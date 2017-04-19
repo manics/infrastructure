@@ -10,8 +10,8 @@
   version: 1.0.0
 
 - name: openmicroscopy.celery-docker
-  src: https://github.com/manics/ansible-role-celery-docker.git
-  version: devel
+  src: https://github.com/openmicroscopy/ansible-role-celery-docker.git
+  version: 0.1.0
 
 - src: openmicroscopy.docker
   version: 2.0.0
